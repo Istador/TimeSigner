@@ -1,0 +1,55 @@
+﻿<html>
+<head>
+</head>
+<body>
+<h1>TimeSigner</h1>
+<div>
+	<h3>Signieren</h3>
+	<p>Wählen sie eine Datei aus, um von ihr einen SHA512-Hash zu erstellen.
+	Mit einem Klick auf "Hash absenden" wird der Hash an den Server übertragen 
+	und zusammen mit Datum und Uhrzeit des Servers signiert.
+	Sie erhalten dann ein XML-Dokument das beweist das der Hash der Datei zu 
+	dem angegebenen Zeitpunkt bereits existierte.</p>
+	Datei: <input type="file" id="files" name="files[]" size="132" />
+	<form action="sign.php" method="get">
+		Hash: <input type="text" name="hash" id="hash" size="150" readonly>
+		<br>
+		<input value="Hash absenden" type="submit" id="sbmtbttn" disabled>
+	</form>
+</div>
+<br>
+<div>
+	<h3>Verifizieren</h3>
+	<form action="verify.php" method="post">
+		<input type="text" name="xml" size="150" value="<timesign>... Ausgabe vom Signieren hier einfügen ...</timesign>">
+		<br>
+		<input value="XML absenden" type="submit">
+	</form>
+</div>
+
+<!-- http://www.tutorials.de/content/1226-checksummen-mit-javascript-html-5-file-api.html -->
+<script type="text/javascript" src="sha512.js"></script>
+
+<!-- http://www.html5rocks.com/de/tutorials/file/dndfiles/?ModPagespeed=noscript -->
+<script>
+  function handleFileSelect(evt) {
+    document.getElementById('sbmtbttn').disabled = true;
+	document.getElementById('hash').value = "";
+    var file = evt.target.files[0]; 
+    var reader = new FileReader();
+	reader.onloadend = function(evt) {
+      if (evt.target.readyState == FileReader.DONE) {
+	    document.getElementById('hash').value = rstr2hex(rstr_sha512(evt.target.result));
+	    document.getElementById('sbmtbttn').disabled = false;
+      }
+	};
+	
+	reader.readAsBinaryString(file);
+  }
+
+  document.getElementById('files').addEventListener('change', handleFileSelect, false);
+</script>
+
+
+</body>
+</html>

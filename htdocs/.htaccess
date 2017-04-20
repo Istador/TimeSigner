@@ -1,0 +1,19 @@
+<Files "priv.pk8">
+Deny from all
+</Files>
+
+<Files "pub.cert">
+Deny from all
+</Files>
+
+<Files "scala-library.jar">
+Deny from all
+</Files>
+
+<Files "Signer.jar">
+Deny from all
+</Files>
+
+<Files "HTML5_FileAPI.zip">
+Deny from all
+</Files>
